@@ -32,19 +32,19 @@ export class Grid<T> {
     protected data: (T | undefined)[];
 
     constructor(
-        public width: number, 
-        public height: number, 
-        protected readonly getDefault: GridGetter<T>, 
+        public width: number,
+        public height: number,
+        protected readonly getDefault: GridGetter<T>,
         protected readonly getInvalid: GridGetter<T> = Getters.ExceptionGetter,
         protected readonly setInvalid: GridSetter<T> = Setters.ExceptionSetter
     ) {
         this.data = new Array(width * height);
     }
-    
+
     get(x: number, y: number): T {
         var width = this.width,
             height = this.height;
-            
+
         if (x < 0 || x >= width || y < 0 || y >= height) {
             return this.getInvalid(x, y);
         }
@@ -56,7 +56,7 @@ export class Grid<T> {
         // At this point the presence of value is guaranteed
         return data[index] as T;
     }
-    
+
     set(x: number, y: number, value: T): void {
         if (x < 0 || x > this.width || y < 0 || y > this.height) {
             this.setInvalid(x, y, value);
@@ -64,11 +64,11 @@ export class Grid<T> {
         var index = y * this.width + x;
         this.data[index] = value;
     }
-    
+
     isInBounds(x: number, y: number): boolean {
-        return x >= 0 && x < this.width && y >= 0 && y <= this.height;
+        return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
-    
+
     clear(value?: T) {
         var data = this.data;
         for (var i = 0, len = data.length; i < len; ++i) {
@@ -76,7 +76,7 @@ export class Grid<T> {
             data[i] = value;
         }
     }
-    
+
     insertRow(position: number) {
         if (position < 0 || position > this.height) {
             throw new Error('Row position lies outside of availbable height (' + this.height + '): ' + position.toString());
@@ -86,7 +86,7 @@ export class Grid<T> {
         this.data = this.data.slice(0, pos).concat(newRow).concat(this.data.slice(pos, this.data.length));
         this.height += 1;
     }
-    
+
     insertColumn(position: number) {
         if (position < 0 || position > this.width) {
             throw new Error('Column position lies outside of availbable width (' + this.width + '): ' + position.toString());

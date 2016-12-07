@@ -61,7 +61,7 @@
             this.data[index] = value;
         };
         Grid.prototype.isInBounds = function (x, y) {
-            return x >= 0 && x < this.width && y >= 0 && y <= this.height;
+            return x >= 0 && x < this.width && y >= 0 && y < this.height;
         };
         Grid.prototype.clear = function (value) {
             var data = this.data;
